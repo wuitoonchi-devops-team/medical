@@ -1,0 +1,13 @@
+.bg-login-image {
+    background: url(../assets/img/medical.jpg);
+    background-position: center;
+    background-size: cover;
+}
+
+.error {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 300px;
+    color: darkorange;
+    width: 100%;
+}
