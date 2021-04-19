@@ -20,6 +20,7 @@
     <link type="text/css" href="{{ asset('dashboard/vendor/toastr/toastr.min.css') }}" rel="stylesheet">
     <link href="{{ asset('dashboard/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('dashboard/vendor/easy-autocomplete/easy-autocomplete.min.css') }}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('dashboard/vendor/select2/select2.min.css') }}" rel="stylesheet">
     <link href="{{ asset('app/style.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if(isset($cssStyles))
@@ -89,6 +90,7 @@
     <script src="{{ asset('dashboard/vendor/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('dashboard/vendor/moment/moment.min.js') }}"></script>
     <script src="{{ asset('dashboard/vendor/easy-autocomplete/easy-autocomplete.min.js') }}"></script>
+    <script src="{{ asset('dashboard/vendor/select2/select2.min.js') }}" rel="stylesheet"></script>
     <script src="{{ asset('app/Config.js') }}"></script>
     <script src="{{ asset('app/Core.js') }}"></script>
     @if(isset($jsControllers))

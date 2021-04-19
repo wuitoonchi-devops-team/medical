@@ -26,6 +26,15 @@ Route::group(['prefix'=>'/'], function() use($router){
         //Estados y Ciudades
         $router->get('/estados', [App\Http\Controllers\Dashboard\EstadoController::class,'index']);
         $router->get('/estados/ciudades/{estado}', [App\Http\Controllers\Dashboard\EstadoController::class,'ciudades']);
+        //Consultas
+        $router->group(['prefix' => 'consultas'], function() use($router) {
+            $router->get('/', [App\Http\Controllers\Dashboard\ConsultasController::class,'index'])->name('consultas');
+            $router->post('/store',[App\Http\Controllers\Dashboard\ConsultasController::class,'store']);
+            $router->post('/update/{id}',[App\Http\Controllers\Dashboard\ConsultasController::class,'update']);
+            $router->get('/destroy/{id}',[App\Http\Controllers\Dashboard\ConsultasController::class,'destroy']);
+            $router->get('/datatable', [App\Http\Controllers\Dashboard\ConsultasController::class,'datatable'])->name('consultas-datatable');
+            $router->post('/buscar_paciente',[\App\Http\Controllers\Dashboard\ConsultasController::class,'buscar_paciente']);
+        });
         //Pacientes
         $router->group(['prefix' => 'pacientes'], function() use($router) {
             $router->get('/', [App\Http\Controllers\Dashboard\PacientesController::class,'index'])->name('pacientes');
@@ -36,12 +45,12 @@ Route::group(['prefix'=>'/'], function() use($router){
             $router->get('/datatable', [App\Http\Controllers\Dashboard\PacientesController::class,'datatable'])->name('pacientes-datatable');
             //Consultas
             $router->group(['prefix' => 'consultas'], function() use($router) {
-                $router->get('/home/{id?}', [App\Http\Controllers\Dashboard\ConsultasController::class,'index'])->name('consultas');
-                $router->post('/store',[App\Http\Controllers\Dashboard\ConsultasController::class,'store']);
-                $router->post('/update/{id}',[App\Http\Controllers\Dashboard\ConsultasController::class,'update']);
-                $router->get('/destroy/{id}',[App\Http\Controllers\Dashboard\ConsultasController::class,'destroy']);
-                $router->get('/datatable', [App\Http\Controllers\Dashboard\ConsultasController::class,'datatable'])->name('consultas-datatable');
-                $router->post('/buscar_paciente',[\App\Http\Controllers\Dashboard\ConsultasController::class,'buscar_paciente']);
+                $router->get('/home/{id?}', [App\Http\Controllers\Dashboard\PacienteConsultasController::class,'index']);
+                $router->post('/store',[App\Http\Controllers\Dashboard\PacienteConsultasController::class,'store']);
+                $router->post('/update/{id}',[App\Http\Controllers\Dashboard\PacienteConsultasController::class,'update']);
+                $router->get('/destroy/{id}',[App\Http\Controllers\Dashboard\PacienteConsultasController::class,'destroy']);
+                $router->get('/datatable', [App\Http\Controllers\Dashboard\PacienteConsultasController::class,'datatable'])->name('consultas-datatable');
+                $router->post('/buscar_paciente',[\App\Http\Controllers\Dashboard\PacienteConsultasController::class,'buscar_paciente']);
             });
         });
     });

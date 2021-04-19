@@ -1,4 +1,4 @@
-route = "/dashboard/pacientes/consultas";
+route = "/dashboard/consultas";
 arrData = [];
 arrEstados = [];
 tblData = $('#dataTable').DataTable({
@@ -80,44 +80,10 @@ window.getData = function() {
         arrData = json.data;
     });
 }
-function getEstados() {
-    Core.get('dashboard/estados').then( function(res) {
-        arrEstados = res.data;
-        arrEstados.forEach(function(item,index){
-                $('#frmNew select[name=estado_id]').append($('<option></option>').val(item.id).html(item.nombre));
-                $('#frmEdit select[name=estado_id]').append($('<option></option>').val(item.id).html(item.nombre));
-            });
-    }).catch( function(err) {
-        Core.showAlert('error','No ha sido posible cargar estados.');
-    });
-}
-
-$('#frmNew select[name=estado_id]').on('change',function() {
-    $('#frmNew select[name=ciudad_id]').empty();
-    Core.get('dashboard/estados/ciudades/'+$(this).val()).then( function(res) {
-        res.data.forEach(function(item,index) {
-                $('#frmNew select[name=ciudad_id]').append($('<option></option>').val(item.id).html(item.nombre));
-            });
-    }).catch( function(err) {
-        console.log(err);
-        Core.showAlert('error','No ha sido posible cargar ciudades.');
-    });
-});
-
-$('#frmEdit select[name=estado_id]').on('change',function() {
-    $('#frmEdit select[name=ciudad_id]').empty();
-    Core.get('dashboard/estados/ciudades/'+$(this).val()).then( function(res) {
-        res.data.forEach(function(item,index) {
-                $('#frmEdit select[name=ciudad_id]').append($('<option '+(itemData.ciudad_id == item.id?' "selected"':'')+'></option>').val(item.id).html(item.nombre));
-            });
-    }).catch( function(err) {
-        Core.showAlert('error','No ha sido posible cargar ciudades.');
-    });
-});
 
 window.showItem = function() {
     $('#frmEdit input[name=id]').val(itemData.id);
-    $('#frmEdit input[name=paciente_id]').val(itemData.paciente_id);
+    $('#frmEdit select[name=paciente_id]').val(itemData.paciente_id).trigger('change');
     $('#frmEdit textarea[name=motivo]').val(itemData.motivo);
     $('#frmEdit input[name=peso]').val(itemData.peso);
     $('#frmEdit input[name=talla]').val(itemData.talla);
@@ -190,5 +156,13 @@ $('#frmNew input[name=edad]').on('change',function() {
     $('#frmNew input[name=nacimiento]').val(Core.getEdadDesdeFecha($(this).val()));
 });
 $(document).ready(function() {
-    getEstados();
+    $('#frmNew select[id=paciente_id]').select2({
+        placeholder: 'Buscar paciente',
+        dropdownParent: $('#mdlNew .modal-content')
+    });
+    $('#frmEdit select[name=paciente_id]').attr('id','paciente_id2');
+    $('#frmEdit select[id=paciente_id2]').select2({
+        placeholder: 'Buscar paciente',
+        dropdownParent: $('#mdlEdit .modal-content')
+    });
 })

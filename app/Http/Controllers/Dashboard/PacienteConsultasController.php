@@ -7,11 +7,11 @@ use App\Models\Consulta;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class ConsultasController extends Controller
+class PacienteConsultasController extends Controller
 {
     var $request;
     var $model;
-    var $folder='dashboard.consultas';
+    var $folder='dashboard.pacientes.consultas';
     var $path;
     public function __construct(Request $request) {
        $this->request = $request;
@@ -21,7 +21,7 @@ class ConsultasController extends Controller
 
     public function index($index=null) {
        return view($this->folder.'.index',[
-            'pacientes' => Paciente::where('estatus',1)->get(),
+            'data' => Paciente::find($index),
             'jsControllers'=>[
                0 => 'app/'.$this->path.'/HomeController.js',
             ],

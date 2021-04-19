@@ -2,7 +2,7 @@
 @section('content')
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Lista de consultas | <b>{{ $data->nombre }}</b></h6>
+        <h6 class="m-0 font-weight-bold text-primary">Consultas</h6>
         <button class="btn btn-info float-right" style="margin-top: -25px;" data-toggle="modal" data-target="#mdlNew"><i class="fa fa-plus-circle"></i></button>
     </div>
     <div class="card-body">
@@ -24,7 +24,7 @@
 </div>
 <!-- Logout Modal-->
 <form id="frmNew">
-    <div class="modal fade" id="mdlNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mdlNew" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -34,7 +34,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @include('dashboard.pacientes.consultas.form')
+                    @include('dashboard.consultas.form')
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
@@ -46,7 +46,7 @@
 </form>
 <!-- Editar -->
 <form id="frmEdit">
-    <div class="modal fade" id="mdlEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="mdlEdit" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog  modal-xl" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -56,7 +56,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    @include('dashboard.pacientes.consultas.form')
+                    @include('dashboard.consultas.form')
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
