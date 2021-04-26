@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DataTables;
+use Carbon\Carbon;
+
 class PacientesController extends Controller
 {
     var $request;
@@ -30,7 +33,12 @@ class PacientesController extends Controller
     }
 
     public function datatable() {
-        return datatables()->eloquent($this->model->query())->make(true);
+        return DataTables::of(Paciente::all())
+                     ->addColumn('edad', function(Paciente $paciente){
+                        $edad = Carbon::parse($paciente->nacimiento)->age;
+                        return $edad;
+                     })
+                     ->make(true);
     }
 
     

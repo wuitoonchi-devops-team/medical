@@ -26,11 +26,11 @@ tblData = $('#dataTable').DataTable({
         }},
         { 
             targets: 4, render: function ( data, type, row, meta ) {
-                return `<center><i class="fa fa-info text-info" style="cursor: pointer" id="showAlergias"></i></center>`
+                return `<center><i class="fa fa-info text-info" style="cursor: pointer" id="showAlergias" data-toggle="tooltip" title="${row.alergias}"></i></center>`
         }},
         { 
             targets: 5, render: function ( data, type, row, meta ) {
-            return `<center><i class="fa fa-info text-info" style="cursor: pointer" id="showCronicas"></i></center>`
+            return `<center><i class="fa fa-info text-info" style="cursor: pointer" id="showCronicas" data-toggle="tooltip" title="${row.enfermedades_cronica}"></i></center>`
         }},
         { 
             targets: 6, render: function ( data, type, row, meta ) {
@@ -39,9 +39,9 @@ tblData = $('#dataTable').DataTable({
         { 
             targets: 7, render: function ( data, type, row, meta ) {
             return `<center>
-                        <a class="fa fa-book text-dark p-2" id="btnEdit" href="${route+'/consultas/home/'+row.id}" style="cursor: pointer;"></a>
-                        <i class="fa fa-edit text-warning p-2" id="btnEdit" data-index='${meta.row}' data-toggle="modal" data-target="#mdlEdit" style="cursor: pointer;"></i>
-                        <i class="fa fa-trash text-danger" id="btnDelete" data-index='${meta.row}' style="cursor: pointer;"></i>
+                        <a class="fa fa-book text-dark p-2" id="btnView" href="${route+'/consultas/home/'+row.id}" style="cursor: pointer;" title="Ver consultas de ${row.nombre}"></a>
+                        <i class="fa fa-edit text-warning p-2" id="btnEdit" data-index='${meta.row}' data-toggle="modal" data-target="#mdlEdit" style="cursor: pointer;" title="Editar paciente"></i>
+                        <i class="fa fa-trash text-danger" id="btnDelete" data-index='${meta.row}' style="cursor: pointer;" title="Eliminar paciente"></i>
                     </center>`;
         }},
     ]
@@ -148,4 +148,5 @@ $('#frmNew input[name=edad]').on('change',function() {
 });
 $(document).ready(function() {
     getEstados();
+    $('#dataTable').tooltip();
 })

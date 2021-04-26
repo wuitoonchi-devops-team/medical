@@ -4,41 +4,58 @@ arrEstados = [];
 tblData = $('#dataTable').DataTable({
     processing: true,
     serverSide: true,
-    ajax: route+"/datatable",
+    ajax: route+"/datatable/"+$("#paciente_id").val(),
     language: {
         url: urlBase+'app/Spanish.json',
         pageLength: 5
     },
     columns: [
-        {data: 'created_at', name: 'created_at', orderable: true, searchable: true},
+        {data: 'afiliacion', name: 'afiliacion', orderable: true, searchable: true},
+        {data: 'nombre', name: 'nombre', orderable: true, searchable: true},
         {data: 'motivo', name: 'motivo', orderable: true, searchable: true},
+        {data: 'created_at', name: 'created_at', orderable: true, searchable: true},
         {data: 'ligado', name: 'ligado'},
         {data: 'ligado', name: 'ligado'},
     ],
-    columnDefs: [ 
+    columnDefs: [
+        
         { 
             targets: 0, render: function ( data, type, row, meta ) {
-                return moment(row.created_at).format('D-M-Y h:m A')
+                return row.afiliacion; 
             }
         },
         { 
             targets: 1, render: function ( data, type, row, meta ) {
-                return row.motivo
+                return row.nombre;
             }
         },
         { 
             targets: 2, render: function ( data, type, row, meta ) {
-                return `<center>${row.pronostico_ligado_evolucion==1?'Sí':'No'}</center>`
+                return row.motivo
             }
         },
         { 
             targets: 3, render: function ( data, type, row, meta ) {
+                return moment(row.created_at).format('D-M-Y h:m A')
+            }
+        },
+        { 
+            targets: 4, render: function ( data, type, row, meta ) {
+                return `<center>${row.pronostico_ligado_evolucion==1?'Sí':'No'}</center>`
+            }
+        },
+        { 
+            targets: 5, render: function ( data, type, row, meta ) {
+            var route = "/dashboard/consultas/imprimir-consulta/"+row.id;
             return `<center>
-                        <i class="fa fa-edit text-warning p-2" id="btnEdit" data-index='${meta.row}' data-toggle="modal" data-target="#mdlEdit" style="cursor: pointer;"></i>
-                        <i class="fa fa-trash text-danger" id="btnDelete" data-index='${meta.row}' style="cursor: pointer;"></i>
+                        <a href="`+route+`" target="_blank"><i class="fa fa-file-pdf text-danger p-2" style="cursor: pointer;" title="Imprimir consulta"></i></a>
+                        <i class="fa fa-edit text-warning p-2" id="btnEdit" data-index='${meta.row}' data-toggle="modal" data-target="#mdlEdit" style="cursor: pointer;" title="Editar consulta"></i>
+                        <i class="fa fa-trash text-danger" id="btnDelete" data-index='${meta.row}' style="cursor: pointer;" title="Eliminar consulta"></i>
                     </center>`;
         }},
-    ]
+        
+    ],
+    order:[3, "desc"],
 });
 //get Firt data to arrData Array
 tblData.ajax.reload( function ( json ) {
@@ -116,6 +133,7 @@ $('#frmEdit select[name=estado_id]').on('change',function() {
 });
 
 window.showItem = function() {
+    console.log(itemData);
     $('#frmEdit input[name=id]').val(itemData.id);
     $('#frmEdit input[name=paciente_id]').val(itemData.paciente_id);
     $('#frmEdit textarea[name=motivo]').val(itemData.motivo);
@@ -130,8 +148,10 @@ window.showItem = function() {
     $('#frmEdit input[name=circunferencia_abdominal]').val(itemData.circunferencia_abdominal);
     $('#frmEdit textarea[name=tratamiento]').val(itemData.tratamiento);
     $('#frmEdit input[name=pronostico_ligado_evolucion]').prop('checked',itemData.pronostico_ligado_evolucion=='1');
-    $('#frmEdit input[name=receta]').prop('checked',itemData.receta=='1');
-    $('#frmEdit input[name=rayosx]').prop('checked',itemData.rayosx=='1');
+    $('#frmEdit input[name=receta]').prop('checked',itemData.receta==1);
+    $('#frmEdit input[name=controlados]').prop('checked',itemData.controlados==1);
+    $('#frmEdit input[name=laboratorios]').prop('checked',itemData.laboratorios==1);
+    $('#frmEdit input[name=rayosx]').prop('checked',itemData.rayosx==1);
     $('#frmEdit input[name=interconsulta]').prop('checked',itemData.interconsulta=='1');
     $('#frmEdit input[name=indicaciones]').prop('checked',itemData.indicaciones=='1');
     $('#frmEdit input[name=electrocardiograma]').prop('checked',itemData.electrocardiograma=='1');
@@ -153,7 +173,8 @@ $('#frmNew').validate({
   submitHandler: function (form) {
   itemData = new FormData(form);
   Core.crud.store().then(function(res) {
-    Core.showToast('success','Registro exitoso');
+    //Core.showToast('success','Registro exitoso');
+    Core.showAlertConsulta(res.data.message, res.data.id_consulta);
     getData();
     $('#mdlNew').modal('hide');
   })
@@ -191,4 +212,16 @@ $('#frmNew input[name=edad]').on('change',function() {
 });
 $(document).ready(function() {
     getEstados();
+
+    $("#btnExportarExcel").on("click", function(e){
+        e.preventDefault();
+        var tabla = $("#dataTable").DataTable();
+
+        if(tabla.data().rows().count() > 0){
+            $("#formExportarExcel").submit();
+        }
+        else{
+            Core.showToast('error', 'Sin datos para exportar a excel');
+        }
+    });
 })

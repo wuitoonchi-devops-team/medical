@@ -5,8 +5,14 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Consulta;
 use App\Models\Paciente;
+use App\Models\Estado;
+use App\Models\Ciudad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use DataTables;
+use PDF;
+
 class ConsultasController extends Controller
 {
     var $request;
@@ -21,18 +27,25 @@ class ConsultasController extends Controller
 
     public function index($index=null) {
        return view($this->folder.'.index',[
-            'pacientes' => Paciente::where('estatus',1)->get(),
+            'pacientes' => Paciente::where('estatus',1)->with(["consultas"])->get(),
             'jsControllers'=>[
                0 => 'app/'.$this->path.'/HomeController.js',
             ],
             'cssStyles' => [
-                  0 => 'app/'.$this->path.'/style.css'
+               0 => 'app/'.$this->path.'/style.css'
             ]
        ]);
     }
 
     public function datatable() {
-        return datatables()->eloquent($this->model->query())->make(true);
+        return DataTables::of(Consulta::all())
+                  ->addColumn("afiliacion", function(Consulta $consulta){
+                     return $consulta->paciente->afiliacion;
+                  })
+                  ->addColumn("nombre", function(Consulta $consulta){
+                     return $consulta->paciente->nombre;
+                  })   
+                  ->make(true);
     }
 
     
@@ -45,7 +58,8 @@ class ConsultasController extends Controller
          DB::commit();
          return $this->successResponse([
               'err' => false,
-              'message' => 'Datos registrados correctamente.'
+              'message' => 'Datos registrados correctamente.',
+              'id_consulta' => $this->model->id
          ]);
       }
        catch(\Exception $e){
@@ -115,5 +129,57 @@ class ConsultasController extends Controller
 
     public function buscar_paciente() {
        return Paciente::where('nombre','like','%'.request()->input('search').'%')->get();
+    }
+
+    // METODO PARA IMPRIMIR LA CONSULTA DEL PACIENTE
+    public function imprimirConsulta($id){
+      $consulta = Consulta::where("id", $id)->with(["paciente"])->get();
+      
+      
+      $fecha = Carbon::now();
+
+      $f1 = $fecha->toDateString();
+      $f11 = explode("-", $f1);
+      $f12 = $f11[0].$f11[1].$f11[2];
+
+      $f2 = $fecha->toTimeString();
+      $f21 = explode(":", $f2);
+      $f22 = $f21[0].$f21[1].$f21[2];
+        
+      $nombre = "consulta-" . $f12 . $f22;
+
+      // CALCULAR LA EDAD
+      if($consulta[0]->paciente->nacimiento !== NULL){
+         $edad = Carbon::parse($consulta[0]->paciente->nacimiento)->age;
+      }
+      else{
+         $edad = "N/A";
+      }
+      
+      // DETERMINAR EL ESTADO Y LA CIUDAD
+      $estado = Estado::find($consulta[0]->paciente->estado_id);
+      $ciudad = Ciudad::find($consulta[0]->paciente->ciudad_id);
+
+      // DETERMINAR FECHA Y HORA
+      $datetime = Carbon::parse($consulta[0]->created_at);
+      $f = $datetime->toDateString();
+      $hora = $datetime->toTimeString();
+
+      $fecha = explode("-", $f);
+
+      $extra = [
+         "edad"   => $edad,
+         "estado" => $estado,
+         "ciudad" => $ciudad,
+         "fecha"  => $fecha[2]."-".$fecha[1]."-".$fecha[0],
+         "hora"   => $hora 
+      ];
+
+      // save - Para guardarlo
+      // stream - Para mostrarlo en el navegador
+      // download - Para descargarlo
+
+      $pdf = PDF::loadView('dashboard.pdfs.imprimir-consulta', ["consulta"=>$consulta, "extra" => $extra]);
+	   return $pdf->stream($nombre . '.pdf');
     }
 }

@@ -161,6 +161,17 @@ Core = {
             }
         }
     },
+    showAlertConsulta: function(data, id){
+        Swal.fire({
+            icon:'success',
+            title:'Procesado correctamente.',
+            text:data
+        }).then((res) => {
+            if(res.value){
+                window.open('/dashboard/consultas/imprimir-consulta/'+id);
+            }
+        });
+    },
     setThousands: function(x) {
       x =parseFloat(x).toFixed(2)+"";
       var parts = x.toString().split(".");

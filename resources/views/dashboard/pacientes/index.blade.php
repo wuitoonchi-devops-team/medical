@@ -10,7 +10,7 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th width="1">Afiliación</th>
+                        <th width="1">Nº Afiliaci&oacute;n</th>
                         <th>Nombre</th>
                         <th width="1">Edad</th>
                         <th width="1">Sexo</th>

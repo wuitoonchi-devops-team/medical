@@ -10,38 +10,54 @@ tblData = $('#dataTable').DataTable({
         pageLength: 5
     },
     columns: [
-        {data: 'created_at', name: 'created_at', orderable: true, searchable: true},
+        {data: 'afiliacion', name: 'afiliacion', orderable: true, searchable: true},
+        {data: 'nombre', name: 'nombre', orderable: true, searchable: true},
         {data: 'motivo', name: 'motivo', orderable: true, searchable: true},
+        {data: 'created_at', name: 'created_at', orderable: true, searchable: true},
         {data: 'ligado', name: 'ligado'},
         {data: 'ligado', name: 'ligado'},
     ],
     columnDefs: [ 
         { 
             targets: 0, render: function ( data, type, row, meta ) {
-                return moment(row.created_at).format('D-M-Y h:m A')
+                return row.afiliacion; 
             }
         },
         { 
             targets: 1, render: function ( data, type, row, meta ) {
-                return row.motivo
+                return row.nombre;
             }
         },
         { 
             targets: 2, render: function ( data, type, row, meta ) {
-                return `<center>${row.pronostico_ligado_evolucion==1?'Sí':'No'}</center>`
+                return row.motivo
             }
         },
         { 
             targets: 3, render: function ( data, type, row, meta ) {
+                return moment(row.created_at).format('D-M-Y h:m A')
+            }
+        },
+        { 
+            targets: 4, render: function ( data, type, row, meta ) {
+                return `<center>${row.pronostico_ligado_evolucion==1?'Sí':'No'}</center>`
+            }
+        },
+        { 
+            targets: 5, render: function ( data, type, row, meta ) {
+            var route = "/dashboard/consultas/imprimir-consulta/"+row.id;
             return `<center>
-                        <i class="fa fa-edit text-warning p-2" id="btnEdit" data-index='${meta.row}' data-toggle="modal" data-target="#mdlEdit" style="cursor: pointer;"></i>
-                        <i class="fa fa-trash text-danger" id="btnDelete" data-index='${meta.row}' style="cursor: pointer;"></i>
+                        <a href="`+route+`" target="_blank"><i class="fa fa-file-pdf text-danger p-2" style="cursor: pointer;" title="Imprimir consulta"></i></a>
+                        <i class="fa fa-edit text-warning p-2" id="btnEdit" data-index='${meta.row}' data-toggle="modal" data-target="#mdlEdit" style="cursor: pointer;" title="Editar consulta"></i>
+                        <i class="fa fa-trash text-danger" id="btnDelete" data-index='${meta.row}' style="cursor: pointer;" title="Eliminar consulta"></i>
                     </center>`;
         }},
-    ]
+    ],
+    order:[3, "desc"],
 });
 //get Firt data to arrData Array
 tblData.ajax.reload( function ( json ) {
+    console.log(json);
     arrData = json.data;
 });
 
@@ -119,8 +135,9 @@ $('#frmNew').validate({
   submitHandler: function (form) {
   itemData = new FormData(form);
   Core.crud.store().then(function(res) {
-    Core.showToast('success','Registro exitoso');
+    Core.showAlertConsulta(res.data.message, res.data.id_consulta);
     getData();
+    
     $('#mdlNew').modal('hide');
   })
   .catch(function (err) {
@@ -164,5 +181,17 @@ $(document).ready(function() {
     $('#frmEdit select[id=paciente_id2]').select2({
         placeholder: 'Buscar paciente',
         dropdownParent: $('#mdlEdit .modal-content')
+    });
+
+    $("#btnExportarExcel").on("click", function(e){
+        e.preventDefault();
+        var tabla = $("#dataTable").DataTable();
+
+        if(tabla.data().rows().count() > 0){
+            $("#formExportarExcel").submit();
+        }
+        else{
+            Core.showToast('error', 'Sin datos para exportar a excel');
+        }
     });
 })

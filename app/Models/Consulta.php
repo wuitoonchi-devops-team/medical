@@ -43,4 +43,8 @@ class Consulta extends Model
         'valoracion_preanestecia',
         'contrareferencia'
     ];
+
+    public function paciente(){
+        return $this->belongsTo(Paciente::class);
+    }
 }

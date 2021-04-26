@@ -7,6 +7,8 @@ use App\Models\Consulta;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use DataTables;
+
 class PacienteConsultasController extends Controller
 {
     var $request;
@@ -31,8 +33,17 @@ class PacienteConsultasController extends Controller
        ]);
     }
 
-    public function datatable() {
-        return datatables()->eloquent($this->model->query())->make(true);
+    public function datatable($id) {
+       $consultas = Consulta::where("paciente_id",$id)->get();
+
+       return DataTables::of($consultas)
+                  ->addColumn("afiliacion", function(Consulta $consulta){
+                     return $consulta->paciente->afiliacion;
+                  })
+                  ->addColumn("nombre", function(Consulta $consulta){
+                     return $consulta->paciente->nombre;
+                  })   
+                  ->make(true);
     }
 
     
@@ -45,7 +56,8 @@ class PacienteConsultasController extends Controller
          DB::commit();
          return $this->successResponse([
               'err' => false,
-              'message' => 'Datos registrados correctamente.'
+              'message' => 'Datos registrados correctamente.',
+              'id_consulta' => $this->model->id
          ]);
       }
        catch(\Exception $e){

@@ -3,15 +3,18 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Consultas</h6>
-        <button class="btn btn-info float-right" style="margin-top: -25px;" data-toggle="modal" data-target="#mdlNew"><i class="fa fa-plus-circle"></i></button>
+        <button class="btn btn-info float-right" style="margin-top: -25px;" data-toggle="modal" data-target="#mdlNew" title="Agregar consulta"><i class="fa fa-plus-circle"></i></button>
+        <form action="{{ route('export-consultas') }}" method="GET" enctype="multipart/form-data" id="formExportarExcel"><button type="submit" class="btn btn-success float-right" id="btnExportarExcel" style="margin-top: -25px;margin-right:1px;" title="Exportar a Excel"><i class="fa fa-file-excel"></i></button></form>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th width="150">Fecha</th>
+                        <th>Nº Afiliaci&oacute;n</th>
+                        <th>Nombre</th>
                         <th>Motivo</th>
+                        <th width="150">Fecha</th>
                         <th width="1">Ligado</th>
                         <th width="80">Acciones</th>
                     </tr>
