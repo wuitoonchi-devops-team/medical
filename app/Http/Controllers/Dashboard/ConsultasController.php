@@ -7,6 +7,7 @@ use App\Models\Consulta;
 use App\Models\Paciente;
 use App\Models\Estado;
 use App\Models\Ciudad;
+use App\Models\Configuracion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -174,12 +175,16 @@ class ConsultasController extends Controller
          "fecha"  => $fecha[2]."-".$fecha[1]."-".$fecha[0],
          "hora"   => $hora 
       ];
-
+      $configuracion = Configuracion::first();
       // save - Para guardarlo
       // stream - Para mostrarlo en el navegador
       // download - Para descargarlo
 
-      $pdf = PDF::loadView('dashboard.pdfs.imprimir-consulta', ["consulta"=>$consulta, "extra" => $extra]);
+      $pdf = PDF::loadView('dashboard.pdfs.imprimir-consulta', 
+      [
+         "consulta" => $consulta, 
+         "extra" => $extra,
+         "configuracion" => $configuracion]);
 	   return $pdf->stream($nombre . '.pdf');
     }
 }

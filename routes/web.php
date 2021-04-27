@@ -61,5 +61,11 @@ Route::group(['prefix'=>'/'], function() use($router){
                 $router->get('/export-consultas/{id}',[App\Http\Controllers\ConsultaExportController::class,'exportConsultasPaciente'])->name('export-consultas-paciente');
             });
         });
+
+        //Configuracion del sistema
+        $router->group(['prefix'=>'configuracion'], function() use($router){
+            $router->get('/',[App\Http\Controllers\Dashboard\ConfiguracionController::class,'index'])->name('configuracion');
+            $router->post('/update/{medico}',[App\Http\Controllers\Dashboard\ConfiguracionController::class,'update']);
+        });
     });
 });

@@ -11,3 +11,8 @@
     color: darkorange;
     width: 100%;
 }
+
+.profilePreview {
+    width: 240px;
+    height: 250px;
+}
