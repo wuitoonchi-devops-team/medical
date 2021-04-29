@@ -21,6 +21,7 @@
     <link href="{{ asset('dashboard/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('dashboard/vendor/easy-autocomplete/easy-autocomplete.min.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('dashboard/vendor/select2/select2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
     <link href="{{ asset('app/style.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if(isset($cssStyles))

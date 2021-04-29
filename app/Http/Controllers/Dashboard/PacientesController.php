@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Carbon\Carbon;
-
 class PacientesController extends Controller
 {
     var $request;
@@ -50,10 +49,12 @@ class PacientesController extends Controller
          $this->model->fill($data)->save();
          $existe = $this->model->where('afiliacion',$data['afiliacion'])->first();
          if($existe) {
-            return $this->errorResponse([
-               'err' => true,
-               'message' => 'Ya existe un paciente con la misma serie de afiliacióin'
-            ]);
+            if($existe->afiliacion!=null) {
+               return $this->errorResponse([
+                  'err' => true,
+                  'message' => 'Ya existe un paciente con la misma serie de afiliacióin'
+               ]);
+            }
          }
          DB::commit();
          return $this->successResponse([
@@ -78,10 +79,12 @@ class PacientesController extends Controller
          $itemData = $this->model->find($id);
          $existe = $this->model->where('afiliacion',$data['afiliacion'])->first();
          if($existe->id!=$id) {
-            return $this->errorResponse([
-               'err' => true,
-               'message' => 'Ya existe un paciente con la misma serie de afiliacióin'
-            ]);
+            if($existe->afiliacion!=null) {
+               return $this->errorResponse([
+                  'err' => true,
+                  'message' => 'Ya existe un paciente con la misma serie de afiliacióin'
+               ]);
+            }
          }
          if($itemData){
            if($itemData->fill($data)->isDirty()) {

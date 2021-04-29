@@ -139,12 +139,12 @@ $('#frmEdit').validate({
     })
 }});
 //Calcular edad con fecha
-$('#frmNew input[name=nacimiento]').on('change',function() {
+$('#frmNew input[name=nacimiento]').on('keyup',function() {
     $('#frmNew input[name=edad]').val(Core.getEdadDesdeFecha($(this).val()));
 });
 //Calcular fecha con edad
-$('#frmNew input[name=edad]').on('change',function() {
-    $('#frmNew input[name=nacimiento]').val(Core.getEdadDesdeFecha($(this).val()));
+$('#frmNew input[name=edad]').on('keyup',function() {
+    $('#frmNew input[name=nacimiento]').val(Core.getFechaDesdeEdad($(this).val()));
 });
 $(document).ready(function() {
     getEstados();

@@ -102,6 +102,7 @@ Core = {
             return axios.post(urlWeb + route + '/update/' + id, itemData);
         },
         destroy: function(id) {
+            console.log(urlWeb + route + '/destroy/' + id);
             return axios.get(urlWeb + route + '/destroy/' + id);
         }
     },
@@ -318,7 +319,7 @@ Core = {
         return moment().diff(dateInput,'years');
     },
     getFechaDesdeEdad(edad) {
-        return moment().subtract(edad*365, "days").format('YYYY-DD-MM')
+        return moment().subtract(edad*365, "days").format('yyyy-MM-DD')
       }
 };
 //Eventos Generales
@@ -343,12 +344,12 @@ $(document).on('click', '#btnDelete', function() {
         callback: function(result) {
             if (result==true) {
                 Core.crud.destroy(item.id).then(function(res) {
-                    Core.showToastStr('success',res.data.message);
-                }).catch(function(err) {
-                    Core.showSweetAlert('error', err.response.data.error.message);
-                }).finally(function() {
+                    Core.showToast('success',res.data.message);
                     getData();
-                });
+                }).catch(function(err) {
+                    console.log(err);
+                    //Core.showAlert('error', err.response.data.error.message);
+                })
             }
         }
     });

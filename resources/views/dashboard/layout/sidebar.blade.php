@@ -42,6 +42,13 @@
             <i class="fas fa-fw fa-cogs"></i>
             <span>Configuración</span></a>
     </li>
+
+     <!-- Nav Item - Charts -->
+     <li class="nav-item">
+        <a class="nav-link" href="{{ route('configuracion-estados') }}">
+            <i class="mdi mdi-map-marker"></i>
+            <span>Estados</span></a>
+    </li>
     
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

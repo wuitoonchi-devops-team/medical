@@ -30,11 +30,11 @@
                     </tr>
                     <tr>
                         <td><b>Estado:</b></td>
-                        <td>{{ $extra["estado"]->nombre }}</td>
+                        <td>{{ $extra["estado"]!=null?$extra['estado']->nombre:'' }}</td>
                     </tr>
                     <tr>
                         <td><b>Ciudad:</b></td>
-                        <td>{{ $extra["ciudad"]->nombre }}</td>
+                        <td>{{ $extra["ciudad"]!=null?$extra['ciudad']->nombre:'' }}</td>
                     </tr>
                 </table>
             </div>

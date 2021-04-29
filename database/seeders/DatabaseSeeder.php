@@ -16,6 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadosSeeder::class);
         $this->call(CiudadesSeeder::class);
         \App\Models\User::factory(1)->create();
-        $this->call(PacienteSeeder::class);
+        //$this->call(PacienteSeeder::class);
     }
 }

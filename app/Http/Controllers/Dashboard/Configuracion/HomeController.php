@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Dashboard\Configuracion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Configuracion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class ConfiguracionController extends Controller
+class HomeController extends Controller
 {
     var $request;
     var $model;
