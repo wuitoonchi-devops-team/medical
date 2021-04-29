@@ -42,8 +42,8 @@
             <i class="fas fa-fw fa-cogs"></i>
             <span>Configuración</span></a>
     </li>
-
-     <!-- Nav Item - Charts -->
+	
+	<!-- Nav Item - Charts -->
      <li class="nav-item">
         <a class="nav-link" href="{{ route('configuracion-estados') }}">
             <i class="mdi mdi-map-marker"></i>

@@ -3,7 +3,6 @@ $("#frmLogin").validate({
         itemData = new FormData(form);
         Core.post('login', itemData)
         .then(function (res) {
-            console.log(res);
             if(res.data.err==false) {
                 Core.showToast('success','Acceso correcto, redirigiendo...');
                 setTimeout(function() {
@@ -21,5 +20,7 @@ $("#frmLogin").validate({
 });
 init();
 function init() {
+    $('#email').val('admin@admin.com')
+    $('#password').val('password');
 }
 
