@@ -3,6 +3,10 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Models\Paciente;
+use App\Models\Consulta;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +18,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('prueba/{fecha_inicial}/{final_final}'  , function($fechaInicial, $fechaFinal){
+    /*$consultas = Consulta::select(DB::raw('count(id) as cantidad, DATE(created_at) as fecha'))
+                    ->whereDate('created_at', ">=", $fechaInicial)
+                    ->whereDate('created_at', "<=", $fechaFinal)
+                    ->groupBy('fecha')
+                    ->get();*/
+    $consultas = Consulta::select(DB::raw('count(id) as cantidad, date(created_at) as fecha'))
+                            ->whereDate("created_at", ">=", $fechaInicial)
+                            ->whereDate("created_at", "<=", $fechaFinal)
+                            ->groupBy('fecha')
+                            ->get();
+    dd($consultas);
+    foreach ($consultas as $item) {
+        echo $item->paciente."<br><br>";
+    }
+    
+    /*return [
+        "consultas" => $consultas
+    ];*/
+});
+
 Route::group(['prefix'=>'/'], function() use($router){
     $router->get('/',[App\Http\Controllers\HomeController::class,'index'])->name('login');
     $router->post('/login',[App\Http\Controllers\HomeController::class,'login']);
@@ -22,6 +47,8 @@ Route::group(['prefix'=>'/'], function() use($router){
     $router->group(['prefix'=>'dashboard','middleware'=>['auth']], function() use($router) {
         //Panel
         $router->get('/home',[App\Http\Controllers\Dashboard\HomeController::class,'index'])->name('home');
+        $router->post('/pacientes-graficas/{fecha_inicial}/{fecha_final}' , [App\Http\Controllers\Dashboard\HomeController::class, 'graficasPacientes']);
+        $router->post('/consultas-graficas/{fecha_inicial}/{fecha_final}' , [App\Http\Controllers\Dashboard\HomeController::class, 'graficasConsultas']);
         //Estados y Ciudades
         $router->get('/estados', [App\Http\Controllers\Dashboard\EstadoController::class,'index']);
         $router->get('/estados/ciudades/{estado}', [App\Http\Controllers\Dashboard\EstadoController::class,'ciudades']);
@@ -64,9 +91,10 @@ Route::group(['prefix'=>'/'], function() use($router){
         //Configuracion del sistema
         $router->group(['prefix'=>'configuracion'], function() use($router) {
             $router->get('/',[App\Http\Controllers\Dashboard\Configuracion\HomeController::class,'index'])->name('configuracion');
-            $router->post('/update/{medico}',[App\Http\Controllers\Dashboard\Configuracion\HomeController::class,'update']);
             //Estados
-            $router->group(['prefix'=>'estados'], function() use($router) {
+            $router->post('/update/{medico}',[App\Http\Controllers\Dashboard\Configuracion\HomeController::class,'update'])->name('actualizar-configuracion');
+			$router->group(['prefix'=>'estados'], function() use($router){
+
                $router->get('/',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'index'])->name('configuracion-estados');
                $router->get('/all',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'all']);
                $router->post('/store',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'store']);

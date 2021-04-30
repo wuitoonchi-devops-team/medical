@@ -29,10 +29,12 @@
             </table>
         </div>
     </div>
-{!! Form::model(null,['id'=>"frmNew"]) !!}
+
+
 <div class="modal fade" id="mdlNew" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg	" role="document">
     <div class="modal-content">
+        <form action="" method="post">
         <div class="modal-header">
             <h5 class="modal-title" id="exampleModalLabel">Nuevo</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -43,7 +45,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="form-group">
-                        <label for="company">NOmbre</label>
+                        <label for="company">Nombre</label>
                         <input class="form-control" id="nombre" name="nombre" type="text" required>
                     </div>
                 </div>
@@ -64,15 +66,17 @@
         <button type="button" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
         <button type="submit" class="btn btn-success">Guardar</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
-{{ Form::close() }}
 
-{!! Form::model(null,['id'=>"frmEdit"]) !!}
+
+
 <div class="modal fade" id="mdlEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
+      <form action="">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Editar</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -105,8 +109,9 @@
         <button type="button" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
         <button type="submit" class="btn btn-danger">Editar</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
-{{ Form::close() }}
+
 @endsection

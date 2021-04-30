@@ -21,7 +21,9 @@
     <link href="{{ asset('dashboard/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('dashboard/vendor/easy-autocomplete/easy-autocomplete.min.css') }}" rel="stylesheet">
     <link type="text/css" href="{{ asset('dashboard/vendor/select2/select2.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+	<link rel="stylesheet" href="//cdn.materialdesignicons.com/5.4.55/css/materialdesignicons.min.css">
+    <link type="text/css" href="{{ asset('dashboard/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" rel="stylesheet">
+    <link type="text/css" href="{{ asset('dashboard/vendor/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
     <link href="{{ asset('app/style.css') }}" rel="stylesheet">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @if(isset($cssStyles))
@@ -91,7 +93,11 @@
     <script src="{{ asset('dashboard/vendor/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('dashboard/vendor/moment/moment.min.js') }}"></script>
     <script src="{{ asset('dashboard/vendor/easy-autocomplete/easy-autocomplete.min.js') }}"></script>
-    <script src="{{ asset('dashboard/vendor/select2/select2.min.js') }}" rel="stylesheet"></script>
+    <script src="{{ asset('dashboard/vendor/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('dashboard/vendor/chart.js/Chart.min.js') }}"></script>
+    <script src="{{ asset('dashboard/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('dashboard/vendor/bootstrap-datepicker/dist/locales/bootstrap-datepicker.es.min.js') }}"></script>
+    <script src="{{ asset('dashboard/vendor/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     <script src="{{ asset('app/Config.js') }}"></script>
     <script src="{{ asset('app/Core.js') }}"></script>
     @if(isset($jsControllers))
