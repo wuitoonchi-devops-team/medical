@@ -62,10 +62,11 @@ Route::group(['prefix'=>'/'], function() use($router){
         });
 
         //Configuracion del sistema
-        $router->group(['prefix'=>'configuracion'], function() use($router){
+        $router->group(['prefix'=>'configuracion'], function() use($router) {
             $router->get('/',[App\Http\Controllers\Dashboard\Configuracion\HomeController::class,'index'])->name('configuracion');
             $router->post('/update/{medico}',[App\Http\Controllers\Dashboard\Configuracion\HomeController::class,'update']);
-            $router->group(['prefix'=>'estados'], function() use($router){
+            //Estados
+            $router->group(['prefix'=>'estados'], function() use($router) {
                $router->get('/',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'index'])->name('configuracion-estados');
                $router->get('/all',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'all']);
                $router->post('/store',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'store']);
@@ -73,6 +74,7 @@ Route::group(['prefix'=>'/'], function() use($router){
                $router->get('/destroy/{estado}',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'destroy']);
                $router->get('/enable_all',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'enable_all']);
                $router->get('/disable_all',[\App\Http\Controllers\Dashboard\Configuracion\Estados\HomeController::class,'disable_all']);
+               //Ciudades
                $router->group(['prefix'=>'ciudades'], function() use($router) {
                   $router->get('/home/{estado}',[App\Http\Controllers\Dashboard\Configuracion\Estados\CiudadesController::class,'index'])->name('configuracion-estados-ciudades');
                   $router->get('/all/{estado}',[\App\Http\Controllers\Dashboard\Configuracion\Estados\CiudadesController::class,'all']);
@@ -84,6 +86,12 @@ Route::group(['prefix'=>'/'], function() use($router){
                   $router->get('/disable_all/{estado}',[\App\Http\Controllers\Dashboard\Configuracion\Estados\CiudadesController::class,'disable_all']);
                });
             });
+
+        });
+        //Perfil de usuario
+        $router->group(['prefix'=>'perfil'], function() use($router){
+           $router->get('/',[App\Http\Controllers\Dashboard\Configuracion\PerfilController::class,'index']);
+           $router->post('/update',[App\Http\Controllers\Dashboard\Configuracion\PerfilController::class,'update']);
         });
     });
 });
