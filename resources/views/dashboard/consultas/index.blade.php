@@ -11,11 +11,9 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Nº Afiliaci&oacute;n</th>
                         <th>Nombre</th>
                         <th>Motivo</th>
                         <th width="150">Fecha</th>
-                        <th width="1">Ligado</th>
                         <th width="80">Acciones</th>
                     </tr>
                 </thead>

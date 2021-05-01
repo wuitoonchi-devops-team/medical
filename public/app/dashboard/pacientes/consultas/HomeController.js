@@ -10,42 +10,24 @@ tblData = $('#dataTable').DataTable({
         pageLength: 5
     },
     columns: [
-        {data: 'afiliacion', name: 'afiliacion', orderable: true, searchable: true},
         {data: 'nombre', name: 'nombre', orderable: true, searchable: true},
         {data: 'motivo', name: 'motivo', orderable: true, searchable: true},
         {data: 'created_at', name: 'created_at', orderable: true, searchable: true},
-        {data: 'ligado', name: 'ligado'},
-        {data: 'ligado', name: 'ligado'},
+        {data: 'created_at', name: 'created_at'},
     ],
     columnDefs: [
-        
-        { 
-            targets: 0, render: function ( data, type, row, meta ) {
-                return row.afiliacion; 
-            }
-        },
         { 
             targets: 1, render: function ( data, type, row, meta ) {
-                return row.nombre;
-            }
-        },
-        { 
-            targets: 2, render: function ( data, type, row, meta ) {
                 return row.motivo
             }
         },
         { 
-            targets: 3, render: function ( data, type, row, meta ) {
+            targets: 2, render: function ( data, type, row, meta ) {
                 return moment(row.created_at).format('D-M-Y h:m A')
             }
         },
         { 
-            targets: 4, render: function ( data, type, row, meta ) {
-                return `<center>${row.pronostico_ligado_evolucion==1?'Sí':'No'}</center>`
-            }
-        },
-        { 
-            targets: 5, render: function ( data, type, row, meta ) {
+            targets: 3, render: function ( data, type, row, meta ) {
             var route = "/dashboard/consultas/imprimir-consulta/"+row.id;
             return `<center>
                         <a href="`+route+`" target="_blank"><i class="fa fa-file-pdf text-danger p-2" style="cursor: pointer;" title="Imprimir consulta"></i></a>

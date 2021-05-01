@@ -45,16 +45,6 @@ class PacientesController extends Controller
       try {
          DB::beginTransaction();
          $data = $this->request->all();
-         $existe = $this->model->where('afiliacion',$data['afiliacion'])->first();
-         if($existe) {
-            if($existe->afiliacion!=null) {
-               return $this->errorResponse([
-                  'err' => true,
-                  'message' => 'Ya existe un paciente con la misma serie de afiliación'
-               ]);
-            }
-         }
-         //echo response()->json($data);
          $this->model->fill($data)->save();
          DB::commit();
          return $this->successResponse([
@@ -77,15 +67,6 @@ class PacientesController extends Controller
          DB::beginTransaction();
          $data = $this->request->all();
          $itemData = $this->model->find($id);
-         $existe = $this->model->where('afiliacion',$data['afiliacion'])->first();
-         if($existe->id!=$id) {
-            if($existe->afiliacion!=null) {
-               return $this->errorResponse([
-                  'err' => true,
-                  'message' => 'Ya existe un paciente con la misma serie de afiliacióin'
-               ]);
-            }
-         }
          if($itemData){
            if($itemData->fill($data)->isDirty()) {
               $itemData->save();

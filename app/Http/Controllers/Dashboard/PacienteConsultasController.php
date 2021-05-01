@@ -37,9 +37,6 @@ class PacienteConsultasController extends Controller
        $consultas = Consulta::where("paciente_id",$id)->get();
 
        return DataTables::of($consultas)
-                  ->addColumn("afiliacion", function(Consulta $consulta){
-                     return $consulta->paciente->afiliacion;
-                  })
                   ->addColumn("nombre", function(Consulta $consulta){
                      return $consulta->paciente->nombre;
                   })   

@@ -10,12 +10,11 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th width="1">Nº Afiliaci&oacute;n</th>
                         <th>Nombre</th>
-                        <th width="1">Edad</th>
-                        <th width="1">Sexo</th>
                         <th width="1">Alergias</th>
                         <th width="1">Cronica</th>
+                        <th width="1">Edad</th>
+                        <th width="1">Sexo</th>
                         <th width="1">Estatus</th>
                         <th width="80">Acciones</th>
                     </tr>

@@ -13,5 +13,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['prefix' => ''], function() use($router) {
-    include('admin.php');
+    return [];
 });

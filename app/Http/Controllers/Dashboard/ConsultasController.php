@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Consulta;
 use App\Models\Paciente;
-use App\Models\Estado;
-use App\Models\Ciudad;
 use App\Models\Configuracion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use DataTables;
-use PDF;
+use Codedge\Fpdf\Facades\Fpdf;
+use Codedge\Fpdf\Fpdf\Fpdf as FpdfFpdf;
 
 class ConsultasController extends Controller
 {
@@ -135,56 +134,39 @@ class ConsultasController extends Controller
     // METODO PARA IMPRIMIR LA CONSULTA DEL PACIENTE
     public function imprimirConsulta($id){
       $consulta = Consulta::where("id", $id)->with(["paciente"])->get();
-      
-      
-      $fecha = Carbon::now();
-
-      $f1 = $fecha->toDateString();
-      $f11 = explode("-", $f1);
-      $f12 = $f11[0].$f11[1].$f11[2];
-
-      $f2 = $fecha->toTimeString();
-      $f21 = explode(":", $f2);
-      $f22 = $f21[0].$f21[1].$f21[2];
-        
-      $nombre = "consulta-" . $f12 . $f22;
-
-      // CALCULAR LA EDAD
-      if($consulta[0]->paciente->nacimiento !== NULL){
-         $edad = Carbon::parse($consulta[0]->paciente->nacimiento)->age;
-      }
-      else{
-         $edad = "N/A";
-      }
-      
-      // DETERMINAR EL ESTADO Y LA CIUDAD
-      $estado = Estado::find($consulta[0]->paciente->estado_id);
-      $ciudad = Ciudad::find($consulta[0]->paciente->ciudad_id);
-
-      // DETERMINAR FECHA Y HORA
-      $datetime = Carbon::parse($consulta[0]->created_at);
-      $f = $datetime->toDateString();
-      $hora = $datetime->toTimeString();
-
-      $fecha = explode("-", $f);
-
-      $extra = [
-         "edad"   => $edad,
-         "estado" => $estado,
-         "ciudad" => $ciudad,
-         "fecha"  => $fecha[2]."-".$fecha[1]."-".$fecha[0],
-         "hora"   => $hora 
-      ];
       $configuracion = Configuracion::first();
-      // save - Para guardarlo
-      // stream - Para mostrarlo en el navegador
-      // download - Para descargarlo
-
-      $pdf = PDF::loadView('dashboard.pdfs.imprimir-consulta', 
-      [
-         "consulta" => $consulta, 
-         "extra" => $extra,
-         "configuracion" => $configuracion]);
-	   return $pdf->stream($nombre . '.pdf');
+      $pdf =  new FpdfFpdf();
+      $pdf->AddPage();
+      // Logo
+      $pdf->Image($configuracion->logo,10,8,30);
+      $pdf->AddFont('PinyonScript','','PinyonScript-Regular.php');
+      $pdf->SetFont('PinyonScript','',20);
+      $pdf->Cell(80);
+      $pdf->Cell(30,10,$configuracion->medico,0,0,'C');
+      $pdf->Ln(7);
+      $pdf->SetFont('Arial','',10);
+      $pdf->Cell(80);
+      $pdf->Cell(30,10,$configuracion->institucion,0,0,'C');
+      $pdf->SetFont('Arial','B',10);
+      $pdf->Ln(5);
+      $pdf->Cell(80);
+      $pdf->Cell(30,10,$configuracion->especializacion,0,0,'C');
+      $pdf->Ln(4);
+      $pdf->SetFont('Arial','',8);
+      $pdf->Cell(80);
+      $pdf->Cell(30,10,$configuracion->direccion,0,0,'C');
+      $pdf->Ln(4);
+      $pdf->SetFont('Arial','',8);
+      $pdf->Cell(80);
+      $pdf->Cell(30,10,'TEL. CONSULTORIO: '.$configuracion->tels,0,0,'C');
+      $pdf->Ln(4);
+      $pdf->SetFont('Arial','',8);
+      $pdf->Cell(80);
+      $pdf->Cell(30,10,'CONSULTA:'.$configuracion->horario,0,0,'C');
+      //Body
+      $pdf->Ln(20);
+      $pdf->SetFont('Courier', 'B', 18);
+      $pdf->Cell(50, 25, 'Hello World!');
+      return $pdf->Output();
     }
 }

@@ -30,6 +30,10 @@
                                     <label class="col-form-label" for="textarea-input">Horario</label>
                                     <input id="horario" value="{{ isset($configuracion) && $configuracion->horario !== NULL ? $configuracion->horario : "" }}" name="horario" rows="4" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label class="col-form-label" for="textarea-input">RFC</label>
+                                    <input id="rfc" value="{{ isset($configuracion) && $configuracion->rfc !== NULL ? $configuracion->rfc : "" }}" name="rfc" rows="4" class="form-control">
+                                </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
@@ -55,8 +59,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-form-label" for="textarea-input">RFC</label>
-                                    <input id="rfc" value="{{ isset($configuracion) && $configuracion->rfc !== NULL ? $configuracion->rfc : "" }}" name="rfc" rows="4" class="form-control">
+                                    <label class="col-form-label" for="textarea-input"><b>Contraseña(solo si se cambiará)</b></label>
+                                    <input id="password" name="password" rows="4" class="form-control">
                                 </div>
                             </div>
                         </div>

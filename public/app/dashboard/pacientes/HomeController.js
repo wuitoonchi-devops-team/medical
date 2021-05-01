@@ -10,34 +10,29 @@ tblData = $('#dataTable').DataTable({
         pageLength: 5
     },
     columns: [
-        {data: 'afiliacion', name: 'afiliacion', orderable: true, searchable: true},
         {data: 'nombre', name: 'nombre', orderable: true, searchable: true},
-        {data: 'edad', name: 'edad', orderable: true, searchable: true},
-        {data: 'sexo', name: 'sexo', orderable: true, searchable: true},
         {data: 'alergias', name: 'alergias'},
         {data: 'enfermedades_cronica', name: 'enfermedades_cronica'},
+        {data: 'edad', name: 'edad', orderable: true, searchable: true},
+        {data: 'sexo', name: 'sexo', orderable: true, searchable: true},
         {data: 'estatus', name: 'estatus'},
         {data: 'estatus', name: 'estatus'},
     ],
     columnDefs: [ 
         { 
-            targets: 0, render: function ( data, type, row, meta ) {
-            return row.afiliacion
+            targets: 1, render: function ( data, type, row, meta ) {
+                return row.alergias;
         }},
         { 
-            targets: 4, render: function ( data, type, row, meta ) {
-                return `<center><i class="fa fa-info text-info" style="cursor: pointer" id="showAlergias" data-toggle="tooltip" title="${row.alergias}"></i></center>`
+            targets: 2, render: function ( data, type, row, meta ) {
+            return row.enfermedades_cronica;
         }},
         { 
             targets: 5, render: function ( data, type, row, meta ) {
-            return `<center><i class="fa fa-info text-info" style="cursor: pointer" id="showCronicas" data-toggle="tooltip" title="${row.enfermedades_cronica}"></i></center>`
-        }},
-        { 
-            targets: 6, render: function ( data, type, row, meta ) {
             return `<center>${row.estatus==1?'<span class="text-success">Activo</span>':'<span class="text-danger">Inactivo</span>'}</center>`
         }},
         { 
-            targets: 7, render: function ( data, type, row, meta ) {
+            targets: 6, render: function ( data, type, row, meta ) {
             return `<center>
                         <a class="fa fa-book text-dark p-2" id="btnView" href="${route+'/consultas/home/'+row.id}" style="cursor: pointer;" title="Ver consultas de ${row.nombre}"></a>
                         <i class="fa fa-edit text-warning p-2" id="btnEdit" data-index='${meta.row}' data-toggle="modal" data-target="#mdlEdit" style="cursor: pointer;" title="Editar paciente"></i>

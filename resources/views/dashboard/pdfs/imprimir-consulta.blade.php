@@ -13,8 +13,7 @@
                 <br><br>
                 <table>
                     <tr>
-                        <td><b>Nº Afilicaci&oacute;n:</b></td>
-                        <td>{{ $consulta[0]->paciente->afilicacion === "" ? "N/A" : $consulta[0]->paciente->afiliacion }}</td>
+                        <td><img src="{{ $configuracion->logo }}"></td>
                     </tr>
                     <tr>
                         <td><b>Nombre:</b></td>

@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Configuracion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+
 class HomeController extends Controller
 {
     var $request;
@@ -34,6 +37,11 @@ class HomeController extends Controller
             DB::beginTransaction();
             $data = $this->request->all();
             $itemData = $this->model->first();
+            if(isset($data['password'])) {
+                $user = User::find(auth()->user()->id);
+                $user->password = Hash::make($data['password']);
+                $user->save();
+            }
             if($itemData) {
                 if($itemData->fill($data)->save()) {
                     $logo = $this->request->file('logo');
