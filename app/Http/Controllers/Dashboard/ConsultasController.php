@@ -76,28 +76,17 @@ class ConsultasController extends Controller
       try {
          DB::beginTransaction();
          $data = $this->request->all();
-         $data['pronostico_ligado_evolucion'] = isset($data['pronostico_ligado_evolucion'])?1:0;
          $data['receta'] = isset($data['receta'])?1:0;
+         $data['laboratorios'] = isset($data['laboratorios'])?1:0;
          $data['rayosx'] = isset($data['rayosx'])?1:0;
-         $data['interconsulta'] = isset($data['interconsulta'])?1:0;
          $data['indicaciones'] = isset($data['indicaciones'])?1:0;
-         $data['electrocardiograma'] = isset($data['electrocardiograma'])?1:0;
-         $data['incapacidad'] = isset($data['incapacidad'])?1:0;
-         $data['constancia_asistencia'] = isset($data['constancia_asistencia'])?1:0;
-         $data['cuidados_maternos'] = isset($data['cuidados_maternos'])?1:0;
-         $data['citologia_cerv_vaginal'] = isset($data['citologia_cerv_vaginal'])?1:0;
-         $data['preparados'] = isset($data['preparados'])?1:0;
-         $data['estudios_especiales'] = isset($data['estudios_especiales'])?1:0;
-         $data['estudios_audiologicos'] = isset($data['estudios_audiologicos'])?1:0;
-         $data['sugerir_cirugia'] = isset($data['sugerir_cirugia'])?1:0;
-         $data['proc_urologia'] = isset($data['proc_urologia'])?1:0;
-         $data['proc_hematologia'] = isset($data['proc_hematologia'])?1:0;
-         $data['valoracion_preanestecia'] = isset($data['valoracion_preanestecia'])?1:0;
-         $data['contrareferencia'] = isset($data['contrareferencia'])?1:0;
          $itemData = $this->model->find($id);
          if($itemData){
            if($itemData->fill($data)->isDirty()) {
               $itemData->save();
+              $paciente = $itemData->paciente;
+              $paciente->edad = $data['edad'];
+              $paciente->save();
               DB::commit();
               return $this->successResponse([
                      'err' => false,
@@ -281,7 +270,7 @@ class ConsultasController extends Controller
          $pdf->setXY(145+$recorrerX, 65+$recorrerY);
          $pdf->MultiCell(0, 4, $consulta[0]->rayosx==1?'X':'', 0, 'L');
          $pdf->Ln(15);
-         $pdf->SetFont('Arial', '', 12);
+         $pdf->SetFont('Arial', '', 11);
          $pdf->MultiCell(195, 6, $consulta[0]->tratamiento);
       //Footer
          //Firma

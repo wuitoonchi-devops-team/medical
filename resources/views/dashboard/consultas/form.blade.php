@@ -80,6 +80,10 @@
         </div>
     </div>
     <div class="col-sm-4">
+        <div class="form-group">
+            <label for="edad">Edad</label>
+            <input type="number" class="form-control" id="edad" name="edad" value="{{ $paciente->edad }}">
+        </div>
         <label for="">Referido a:</label>
         <div class="form-check">
             <input id="receta" class="form-check-input" type="checkbox" name="receta" value="1">

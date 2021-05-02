@@ -44,7 +44,7 @@ class Consulta extends Model
         'contrareferencia'
     ];
 
-    public function paciente(){
+    public function paciente() {
         return $this->belongsTo(Paciente::class, "paciente_id", "id");
     }
 }
