@@ -32,12 +32,7 @@ class PacientesController extends Controller
     }
 
     public function datatable() {
-        return DataTables::of(Paciente::all())
-                     ->addColumn('edad', function(Paciente $paciente){
-                        $edad = Carbon::parse($paciente->nacimiento)->age;
-                        return $edad;
-                     })
-                     ->make(true);
+        return DataTables::of(Paciente::all())->make(true);
     }
 
     

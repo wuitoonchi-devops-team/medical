@@ -17,7 +17,7 @@ class CreateConsultasTable extends Migration
             $table->id();
             $table->unsignedBigInteger('paciente_id');
             $table->foreign('paciente_id')->references('id')->on('pacientes')->onDelete('cascade');
-            $table->string('motivo')->nullable();
+            $table->longText('motivo')->nullable();
             $table->float('peso')->nullable();
             $table->float('talla')->nullable();
             $table->float('imc')->nullable();
@@ -27,7 +27,7 @@ class CreateConsultasTable extends Migration
             $table->float('temperatura')->nullable();
             $table->float('frecuencia_respiratoria')->nullable();
             $table->float('circunferencia_abdominal')->nullable();
-            $table->mediumText('tratamiento')->nullable();
+            $table->longText('tratamiento')->nullable();
             $table->boolean('pronostico_ligado_evolucion')->default(0);
             $table->boolean('receta')->default(0);
             $table->boolean('controlados')->default(0);

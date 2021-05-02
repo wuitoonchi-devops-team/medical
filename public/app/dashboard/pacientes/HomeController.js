@@ -64,38 +64,12 @@ function getEstados() {
     });
 }
 
-$('#frmNew select[name=estado_id]').on('change',function() {
-    $('#frmNew select[name=ciudad_id]').empty();
-    Core.get('dashboard/estados/ciudades/'+$(this).val()).then( function(res) {
-        res.data.forEach(function(item,index) {
-                $('#frmNew select[name=ciudad_id]').append($('<option></option>').val(item.id).html(item.nombre));
-            });
-    }).catch( function(err) {
-        console.log(err);
-        Core.showAlert('error','No ha sido posible cargar ciudades.');
-    });
-});
-
-$('#frmEdit select[name=estado_id]').on('change',function() {
-    $('#frmEdit select[name=ciudad_id]').empty();
-    Core.get('dashboard/estados/ciudades/'+$(this).val()).then( function(res) {
-        res.data.forEach(function(item,index) {
-                $('#frmEdit select[name=ciudad_id]').append($('<option '+(itemData.ciudad_id == item.id?' "selected"':'')+'></option>').val(item.id).html(item.nombre));
-            });
-    }).catch( function(err) {
-        Core.showAlert('error','No ha sido posible cargar ciudades.');
-    });
-});
-
 window.showItem = function() {
     console.log(itemData);
     $('#frmEdit input[name=id]').val(itemData.id);
-    $('#frmEdit input[name=afiliacion]').val(itemData.afiliacion);
     $('#frmEdit input[name=nombre]').val(itemData.nombre);
     $('#frmEdit input[name=sexo]').val(itemData.sexo);
-    $('#frmEdit input[name=nacimiento]').val(itemData.nacimiento);
     $('#frmEdit input[name=edad]').val(itemData.edad);
-    $('#frmEdit select[name=estado_id]').val(itemData.estado_id).trigger('change');
     $('#frmEdit textarea[name=alergias]').val(itemData.alergias);
     $('#frmEdit textarea[name=enfermedades_cronica]').val(itemData.enfermedades_cronica);
     $('#frmEdit select[name=estatus]').val(itemData.estatus);
@@ -133,14 +107,6 @@ $('#frmEdit').validate({
         getData();
     })
 }});
-//Calcular edad con fecha
-$('#frmNew input[name=nacimiento]').on('keyup',function() {
-    $('#frmNew input[name=edad]').val(Core.getEdadDesdeFecha($(this).val()));
-});
-//Calcular fecha con edad
-$('#frmNew input[name=edad]').on('keyup',function() {
-    $('#frmNew input[name=nacimiento]').val(Core.getFechaDesdeEdad($(this).val()));
-});
 $(document).ready(function() {
     getEstados();
     $('#dataTable').tooltip();

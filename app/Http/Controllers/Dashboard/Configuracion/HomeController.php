@@ -49,7 +49,7 @@ class HomeController extends Controller
                             $fileDlete = $itemData->logo;
                             $fileName   = time().rand(111,699).'.' .$logo->getClientOriginalExtension();
                             $filePath = $this->request->logo->storeAs($this->path, $fileName, 'public');
-                            $itemData->logo = env('APP_URL').'/storage/'.$filePath;
+                            $itemData->logo = 'storage/'.$filePath;
                             if(!$itemData->save()) {
                                 return $this->errorResponse([
                                     'err'=>true,
