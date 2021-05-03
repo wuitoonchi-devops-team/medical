@@ -38,14 +38,11 @@ class ConsultasController extends Controller
     }
 
     public function datatable() {
-        return DataTables::of(Consulta::all())
-                  ->addColumn("afiliacion", function(Consulta $consulta){
-                     return $consulta->paciente->afiliacion;
-                  })
-                  ->addColumn("nombre", function(Consulta $consulta){
-                     return $consulta->paciente->nombre;
-                  })   
-                  ->make(true);
+      return DataTables::of($this->model->all())
+      ->addColumn("nombre", function(Consulta $consulta){
+         return $consulta->paciente->nombre;
+      })   
+      ->make(true);
     }
 
     
@@ -252,11 +249,11 @@ class ConsultasController extends Controller
          $pdf->MultiCell(0, 4, utf8_decode('LABORATORIOS: '), 0, 'L');
          $pdf->SetFont('Arial','',9);
          $pdf->setXY(112+$recorrerX, 65+$recorrerY);
-         $pdf->MultiCell(0, 4, $consulta[0]->rayosx==1?'X':'', 0, 'L');
+         $pdf->MultiCell(0, 4, $consulta[0]->laboratorios==1?'X':'', 0, 'L');
          //Rayos X
          $pdf->SetFont('Arial','B',9);
          $pdf->setXY(127+$recorrerX, 65+$recorrerY);
-         $pdf->MultiCell(0, 4, utf8_decode('RAYOS X: '), 0, 'L');
+         $pdf->MultiCell(0, 4, utf8_decode('RAYOS-X: '), 0, 'L');
          $pdf->SetFont('Arial','',9);
          $pdf->setXY(145+$recorrerX, 65+$recorrerY);
          $pdf->MultiCell(0, 4, $consulta[0]->rayosx==1?'X':'', 0, 'L');

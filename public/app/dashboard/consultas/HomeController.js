@@ -13,7 +13,7 @@ tblData = $('#dataTable').DataTable({
         {data: 'nombre', name: 'nombre', orderable: true, searchable: true},
         {data: 'motivo', name: 'motivo', orderable: true, searchable: true},
         {data: 'created_at', name: 'created_at', orderable: true, searchable: true},
-        {data: 'ligado', name: 'ligado'},
+        {data: 'created_at', name: 'created_at', orderable: true, searchable: true},
     ],
     columnDefs: [ 
         { 
