@@ -41,11 +41,11 @@ class ConsultasController extends Controller
       return DataTables::of($this->model->all())
       ->addColumn("nombre", function(Consulta $consulta){
          return $consulta->paciente->nombre;
-      })   
+      })
       ->make(true);
     }
 
-    
+
     public function store() {
       try {
          DB::beginTransaction();
@@ -118,7 +118,7 @@ class ConsultasController extends Controller
     }
 
     // METODO PARA IMPRIMIR LA CONSULTA DEL PACIENTE
-    public function imprimirConsulta($id){
+    public function imprimirConsulta($id) {
       $consulta = Consulta::where("id", $id)->with(["paciente"])->get();
       $configuracion = Configuracion::first();
       $pdf =  new FpdfFpdf('P','mm','Letter');
@@ -222,7 +222,7 @@ class ConsultasController extends Controller
          $pdf->SetFont('Arial','',9);
          $pdf->setXY(170, 48);
          $pdf->MultiCell(0, 4, Carbon::createFromTimeString($consulta[0]->created_at)->format('Y-m-d h:m a'), 0, 'R');
-      $pdf->Line(10, 61, 205, 61);
+         $pdf->Line(10, 61, 205, 61);
       //Referido
          $recorrerX = 30;
          $recorrerY = 10;
@@ -257,18 +257,23 @@ class ConsultasController extends Controller
          $pdf->SetFont('Arial','',9);
          $pdf->setXY(145+$recorrerX, 65+$recorrerY);
          $pdf->MultiCell(0, 4, $consulta[0]->rayosx==1?'X':'', 0, 'L');
-      $pdf->Line(10, 73+$recorrerY, 205, 73+$recorrerY);
+         $pdf->Line(10, 73+$recorrerY, 205, 73+$recorrerY);
       //Footer
       //Body
-         $pdf->SetFont('Arial','B',12);
          $pdf->setXY(10, 78+$recorrerY);
-         $pdf->MultiCell(0, 4, utf8_decode('ANÁLISIS, PLAN DE ESTUDIOS Y TRATAMIENTO: '), 0, 'L');
-         $pdf->SetFont('Arial','',9);
-         $pdf->setXY(145+$recorrerX, 65+$recorrerY);
-         $pdf->MultiCell(0, 4, $consulta[0]->rayosx==1?'X':'', 0, 'L');
+         //Diagnóstico
+         $pdf->SetFont('Arial','B',12);
+         $pdf->MultiCell(0, 4, utf8_decode('DIAGNÓSTICO: '), 0, 'L');
+         $pdf->Ln(3);
+         $pdf->SetFont('Arial','',11);
+         $pdf->MultiCell(0, 4, $consulta[0]->diagnostico!=null?$consulta[0]->diagnostico:'', 0, 'L');
          $pdf->Ln(15);
+         //ANÁLISIS, PLAN DE ESTUDIOS Y TRATAMIENTO
+         $pdf->SetFont('Arial','B',12);
+         $pdf->MultiCell(0, 4, utf8_decode('ANÁLISIS, PLAN DE ESTUDIOS Y TRATAMIENTO: '), 0, 'L');
+         $pdf->Ln(3);
          $pdf->SetFont('Arial', '', 11);
-         $pdf->MultiCell(195, 6, $consulta[0]->tratamiento);
+         $pdf->MultiCell(0, 4, $consulta[0]->tratamiento);
       //Footer
          //Firma
          $pdf->SetFont('Arial','B',8);

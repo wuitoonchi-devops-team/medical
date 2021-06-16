@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('prueba/{fecha_inicial}/{final_final}'  , function($fechaInicial, $fechaFinal){
     /*$consultas = Consulta::select(DB::raw('count(id) as cantidad, DATE(created_at) as fecha'))
                     ->whereDate('created_at', ">=", $fechaInicial)
@@ -33,12 +32,11 @@ Route::get('prueba/{fecha_inicial}/{final_final}'  , function($fechaInicial, $fe
     foreach ($consultas as $item) {
         echo $item->paciente."<br><br>";
     }
-    
+
     /*return [
         "consultas" => $consultas
     ];*/
 });
-
 Route::group(['prefix'=>'/'], function() use($router){
     $router->get('/',[App\Http\Controllers\HomeController::class,'index'])->name('login');
     $router->post('/login',[App\Http\Controllers\HomeController::class,'login']);
@@ -62,7 +60,7 @@ Route::group(['prefix'=>'/'], function() use($router){
             $router->post('/buscar_paciente',[\App\Http\Controllers\Dashboard\ConsultasController::class,'buscar_paciente']);
             $router->get('/export-consultas',[App\Http\Controllers\ConsultaExportController::class,'exportConsultas'])->name('export-consultas');
             // AJAX
-            
+
             /**
              * Imprimir Consulta
              */
@@ -76,7 +74,7 @@ Route::group(['prefix'=>'/'], function() use($router){
             $router->post('/update/{id}',[App\Http\Controllers\Dashboard\PacientesController::class,'update']);
             $router->get('/destroy/{id}',[App\Http\Controllers\Dashboard\PacientesController::class,'destroy']);
             $router->get('/datatable', [App\Http\Controllers\Dashboard\PacientesController::class,'datatable'])->name('pacientes-datatable');
-            //Consultas 
+            //Consultas
             $router->group(['prefix' => 'consultas'], function() use($router) {
                 $router->get('/home/{id?}', [App\Http\Controllers\Dashboard\PacienteConsultasController::class,'index']);
                 $router->post('/store',[App\Http\Controllers\Dashboard\PacienteConsultasController::class,'store']);

@@ -20,6 +20,7 @@ class Consulta extends Model
         'arterial_diastole',
         'arterial_frecuencia',
         'frecuencia_respiratoria',
+        'diagnostico',
         'tratamiento',
         'receta',
         'laboratorios',

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::post('scenario',[App\Http\Controllers\ScenarioController::class,'index']);
 Route::group(['prefix' => ''], function() use($router) {
     return [];
 });

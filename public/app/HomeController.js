@@ -20,7 +20,5 @@ $("#frmLogin").validate({
 });
 init();
 function init() {
-    $('#email').val('admin@admin.com')
-    $('#password').val('password');
 }
 

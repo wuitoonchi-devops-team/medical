@@ -149,6 +149,7 @@ window.showItem = function() {
     $('#frmEdit input[name=proc_hematologia]').prop('checked',itemData.proc_hematologia=='1');
     $('#frmEdit input[name=valoracion_preanestecia]').prop('checked',itemData.valoracion_preanestecia=='1');
     $('#frmEdit input[name=contrareferencia]').prop('checked',itemData.contrareferencia=='1');
+    $('#frmEdit textarea[name=diagnostico]').val(itemData.diagnostico);
 }
 
 $('#frmNew').validate({

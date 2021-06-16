@@ -62,14 +62,6 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="form-group">
-                <label class="col-form-label" for="textarea-input">Análisis, Plan de estudios y tratamiento</label>
-                <textarea id="textarea-input" id="tratamiento" name="tratamiento" rows="4" class="form-control" placeholder="Tratamiento"></textarea>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="col-sm-4">
         <div class="form-group">
@@ -92,6 +84,23 @@
         <div class="form-check">
             <input id="indicaciones" class="form-check-input" type="checkbox" name="indicaciones" value="1">
             <label for="indicaciones" class="form-check-label"> Indicaciones</label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+        <label class="col-form-label" for="textarea-input">Diagnóstico</label>
+        <textarea id="textarea-input" id="diagnostico" name="diagnostico" rows="4" class="form-control" placeholder=""></textarea>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group">
+        <label class="col-form-label" for="textarea-input">Análisis, Plan de estudios y tratamiento</label>
+        <textarea id="textarea-input" id="tratamiento" name="tratamiento" rows="4" class="form-control" placeholder=""></textarea>
         </div>
     </div>
 </div>
